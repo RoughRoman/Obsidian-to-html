@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from tkinter import filedialog 
-
+from tkinter import messagebox
 import os
 
 class MainWindow(tk.Tk):
@@ -13,10 +13,11 @@ class MainWindow(tk.Tk):
 
        
         self.select_vault_label = ttk.Label(self, textvariable = self.vault_path )
-        self.select_vault_button = ttk.Button(self, text = "Select a vault: ", command=self.selectVault)
+        self.select_vault_button = ttk.Button(self, text = "Select a vault: ", command = self.selectVault)
         self.select_vault_label.grid(row = 0, column = 1)
         self.select_vault_button.grid(row = 0, column = 0)
-
+        self.convert_button = ttk.Button(self, text = "Convert!", command = self.convert)
+        self.convert_button.grid(row = 1, column = 0)
 
 
 
@@ -24,4 +25,22 @@ class MainWindow(tk.Tk):
 
     def selectVault(self):
         self.vault_path.set(filedialog.askdirectory())
-        print(self.vault_path)
+
+    def convert(self):
+        if os.path.isdir(str(self.vault_path.get())):
+            answer = messagebox.askyesnocancel("Question", "Use Multiple Processors?"
+                                               +" (Faster but will slow down your computer temporarily)")
+            if answer:
+                # convert with multi-threading
+                pass
+            elif answer == False:
+                # convert with single thread
+                pass
+            else:
+                # cancel
+                return
+
+        else:
+            messagebox.showerror("Error", "Invalid path. Please select your vault directory folder.")
+
+        
