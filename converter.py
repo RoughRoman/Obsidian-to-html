@@ -3,11 +3,11 @@ from multiprocessing import Pool
 from markdown2 import markdown_path
 
 class Converter:
-    def __init__(self, vault):
+    def __init__(self, vault_path, dest_folder):
         self.md_files = []
         self.images = []
-        self.vault_path = vault
-        self.output_folder = ""
+        self.vault_path = vault_path
+        self.dest_folder = dest_folder
 
     def parseFile(self, parallel = False):
         # simply collect all of the files up into the respective lists.
