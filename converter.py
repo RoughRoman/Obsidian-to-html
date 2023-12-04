@@ -1,4 +1,6 @@
 import os
+from multiprocessing import Pool
+from markdown2 import markdown_path
 
 class Converter:
     def __init__(self, vault):
@@ -7,33 +9,28 @@ class Converter:
         self.vault_path = vault
         self.output_folder = ""
 
-    def parseFile(self):
+    def parseFile(self, parallel = False):
         # simply collect all of the files up into the respective lists.
-        traverse(self.vault_path, self.md_files, self.images)
-        print("MD files: ")
-        print(self.md_files)
-        print("\n")
-        print("Image files: ")
-        print(self.images)
+        self.traverse()
+        self.convert(parallel)
 
-    def convert(self, file_list, parallel = False):
-        # process a list of files. 
-        pass
-
-def traverse(folder_path, image_list, md_list):
-    # recurse through the files and append to lists 
-    print("start Traverse")
-    for file in os.listdir(folder_path):
-        print(file)
-        if file.endswith('.md'):
-            md_list.append(file)
-
-        elif file.endswith(".png"):
-            image_list.append(file)
-
-        elif os.path.isdir(file):
-            print("isDir")
-            traverse(file, md_list, image_list )
-        
+    def convert(self, parallel):
+        if parallel:
+            # process in sub processes
+            with Pool() as p:
+                p.map(markdown_path, self.md_files)
+            
         else:
-            continue
+            print("single")
+            # process with single cpu
+            for md_file in self.md_files:
+                print(markdown_path(md_file))
+            
+
+    def traverse(self):
+        for root, dirs, files in os.walk(self.vault_path):
+            for file in files:
+                if file.endswith(".md"):
+                     self.md_files.append(os.path.join(root, file))
+                elif file.endswith(".png"):
+                    self.images.append(os.path.join(root, file))

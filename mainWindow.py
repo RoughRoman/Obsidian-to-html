@@ -3,6 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog 
 from tkinter import messagebox
 import os
+from converter import Converter
 
 class MainWindow(tk.Tk):
     def __init__(self):
@@ -27,15 +28,18 @@ class MainWindow(tk.Tk):
         self.vault_path.set(filedialog.askdirectory())
 
     def convert(self):
+        converter = Converter(str(self.vault_path.get()))
+        
+
         if os.path.isdir(str(self.vault_path.get())):
             answer = messagebox.askyesnocancel("Question", "Use Multiple Processors?"
                                                +" (Faster but will slow down your computer temporarily)")
             if answer:
                 # convert with multi-threading
-                pass
+                converter.parseFile(parallel= True )
             elif answer == False:
                 # convert with single thread
-                pass
+                converter.parseFile(parallel= False )
             else:
                 # cancel
                 return
