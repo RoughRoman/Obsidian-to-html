@@ -21,10 +21,8 @@ class Converter:
             with Pool() as p:
                 html_strs = p.map(format, self.md_files)
 
-            for str in html_strs:
+            #for str in html_strs:
 
-
-            
         else:
             print("single")
             # process with single cpu

@@ -10,24 +10,30 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.vault_path = tk.StringVar(self, "No Vault Selected")
         self.dest_folder_path = tk.StringVar(self, "No Destination set")
-
+		
+        self.geometry("450x150")
         self.title("Obsidian to HTML")
 
-        self.select_vault_label = ttk.Label(self, textvariable = self.vault_path )
-        self.select_vault_button = ttk.Button(self, text = "Select a vault: ", command = self.selectVault)
-        self.select_vault_label.grid(row = 0, column = 1)
-        self.select_vault_button.grid(row = 0, column = 0)
-        self.convert_button = ttk.Button(self, text = "Convert!", command = self.convert)
-        self.convert_button.grid(row = 1, column = 0)
-
-        self.dest_folder_label = ttk.Label(self,
+        self.vault_group = ttk.Frame(self)
+        self.vault_group.pack(fill = tk.BOTH, expand = True)
+        self.select_vault_button = ttk.Button(self.vault_group, text = "Select vault", width = 20,
+		command = self.selectVault)
+        self.select_vault_label = ttk.Label(self.vault_group, textvariable = self.vault_path )
+        self.select_vault_button.pack(side = tk.LEFT)
+        self.select_vault_label.pack(side = tk.LEFT, padx = 50)
+        self.dest_group = ttk.Frame(self)
+        self.dest_group.pack(fill = tk.BOTH, expand = True)
+        self.select_dest_button = ttk.Button(self.dest_group,
+                                            text = "Select destination",
+                                            width = 20,
+											command= self.selectDestFolder)
+        self.select_dest_button.pack(side = tk.LEFT)
+        self.dest_folder_label = ttk.Label(self.dest_group,
                                           textvariable= self.dest_folder_path)
-        self.select_dest_button = ttk.Button(self,
-                                            text = "Select a destination Folder",
-                                            command= self.selectDestFolder)
-        self.dest_folder_label.grid(row= 1, column=1)
-        self.select_dest_button.grid(row= 1, column=0)
-
+        self.dest_folder_label.pack(side = tk.LEFT, padx = 50)
+        self.convert_button = ttk.Button(self, text = "Convert!", width = 20,
+		command = self.convert)
+        self.convert_button.pack(padx = 20, pady = 20)
 
         self.mainloop()
 
