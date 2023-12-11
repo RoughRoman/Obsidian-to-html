@@ -1,0 +1,13 @@
+Important stuff:
+- Clean it up a bit.
+- Create a test vault.
+- Create test files where appropriate. 
+- Finish the format function.
+- Probably rename the format function. 
+- Sort put the multi-processing stuff. 
+
+Additional crud:
+- A decent readme would be nice. 
+- Basic GUI styling would also be nice.
+- Input and error checking in the GUI.
+- A CLI interface to satisfy the Giga-Nerds who prefer a terminal.
