@@ -2,6 +2,7 @@ import os
 from multiprocessing import Pool
 from shutil import copy
 import urllib.request
+import re
 
 class Converter:
     def __init__(self, vault_path, dest_folder):
@@ -9,9 +10,6 @@ class Converter:
         self.images = []
         self.vault_path = vault_path
         self.dest_folder = dest_folder
-
-        # hack to retain the md-block path for later functions
-        self.mdblock_path = ""
 
     def parseFile(self, parallel = False):
         # simply collect all of the files up into the respective lists.
@@ -35,19 +33,6 @@ class Converter:
         for img_file in self.images:
             copy(img_file, image_dest_folder, True)
 
-        # Finally, download the md-block.js file and place it into the destination folder.
-        mdblock_url = "https://md-block.verou.me/md-block.js"
-        download_path = os.path.join(self.dest_folder,"md-block.js") 
-
-        try:
-            urllib.request.urlretrieve(mdblock_url, download_path)
-        except:
-            print("Error: Can not download md-block.js")
-
-        # hack continued
-        self.mdblock_path = download_path
-
-        
 
     def traverse(self):
         for root, dirs, files in os.walk(self.vault_path):
@@ -91,9 +76,11 @@ class Converter:
             for line in md_file:
                 pass
 
+                
+
 
             # add md-block script and close body and html tag
-            html_file.write(f"""<script src="{self.mdblock_path}"></script>
+            html_file.write(f"""<script type="module" src="https://md-block.verou.me/md-block.js"></script>
                             </body>
                             </html>""")
             
