@@ -1,6 +1,7 @@
 import os
 from multiprocessing import Pool
 from shutil import copy
+import urllib.request
 
 class Converter:
     def __init__(self, vault_path, dest_folder):
@@ -31,8 +32,17 @@ class Converter:
         for img_file in self.images:
             copy(img_file, image_dest_folder, True)
 
-        # Finally, download the md-block js file and place it into the destination folder.
+        # Finally, download the md-block.js file and place it into the destination folder.
+        mdblock_url = "https://md-block.verou.me/md-block.js"
+        download_path = os.path.join(self.dest_folder,"md-block.js") 
+
+        try:
+            urllib.request.urlretrieve(mdblock_url, download_path)
+        except:
+            print("Error: Can not download md-block.js")
+
         
+
     def traverse(self):
         for root, dirs, files in os.walk(self.vault_path):
             for file in files:
@@ -58,8 +68,9 @@ class Converter:
                     '<link rel="stylesheet" href="style.css">'+ '\n'+
                 '</head>'+ '\n'+
                 '<body>' + '\n'+
-                    '<script src="index.js"></script>'+ '\n'+
-                    
+                        '<md-block>  </md-block>' + '\n' +
+                        
+                    '<script src="md-block.js"></script>'+ '\n'+
                 '</body>'+ '\n'+
             '</html>'
             ) 
