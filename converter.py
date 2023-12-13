@@ -15,17 +15,12 @@ class Converter:
         self.convert(parallel)
 
     def convert(self, parallel):
+
+        # Process the Files
         if parallel:
-            # process in sub processes
-            
             with Pool() as p:
                 html_strs = p.map(format, self.md_files)
-
-            #for str in html_strs:
-
         else:
-            print("single")
-            # process with single cpu
             for md_file in self.md_files:
                 print(format(md_file))
 
@@ -35,6 +30,8 @@ class Converter:
 
         for img_file in self.images:
             copy(img_file, image_dest_folder, True)
+
+        # Finally, download the md-block js file and place it into the destination folder.
         
     def traverse(self):
         for root, dirs, files in os.walk(self.vault_path):
@@ -60,7 +57,7 @@ class Converter:
                     '<title>{title}</title>'+ '\n'+
                     '<link rel="stylesheet" href="style.css">'+ '\n'+
                 '</head>'+ '\n'+
-                '<body>'+ '\n'+
+                '<body>' + '\n'+
                     '<script src="index.js"></script>'+ '\n'+
                     
                 '</body>'+ '\n'+
