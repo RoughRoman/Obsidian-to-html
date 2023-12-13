@@ -10,6 +10,9 @@ class Converter:
         self.vault_path = vault_path
         self.dest_folder = dest_folder
 
+        # hack to retain the md-block path for later functions
+        self.mdblock_path = ""
+
     def parseFile(self, parallel = False):
         # simply collect all of the files up into the respective lists.
         self.traverse()
@@ -41,6 +44,9 @@ class Converter:
         except:
             print("Error: Can not download md-block.js")
 
+        # hack continued
+        self.mdblock_path = download_path
+
         
 
     def traverse(self):
@@ -53,24 +59,50 @@ class Converter:
 
 
     def format(self, md_filePath):
-        md_file = open(md_filePath,"r")
-        md_str = md_file.read()
-        md_file.close()
+        # This will require some thought. We need to extract some data from the file. 
+        # Like the title or tags etc. Then we need to manually find all the MD style links
+        # and extract them in order to convert them to anchor tags with valid paths to other notes
+        # All while wrapping up non-link or other non-HTML type elements in the md-block tag.
+        # I think a streaming approach would be best. Instead of say, preprocessing the file and 
+        # collecting the link instances. I think the best way would be to process the file line by line
+        # and decide what happens on a case by case basis. 
 
-        html_file = (
-            f'<!DOCTYPE html>'+ '\n'+
-            '<html lang="en">'+ '\n'+
-                '<head>'+ '\n'+
-                    '<meta charset="UTF-8">'+ '\n'+
-                    '<meta name="viewport" content="width=device-width, initial-scale=1.0">'+ '\n'+
-                    '<meta http-equiv="X-UA-Compatible" content="ie=edge">'+ '\n'+
-                    '<title>{title}</title>'+ '\n'+
-                    '<link rel="stylesheet" href="style.css">'+ '\n'+
-                '</head>'+ '\n'+
-                '<body>' + '\n'+
-                        '<md-block>  </md-block>' + '\n' +
-                        
-                    '<script src="md-block.js"></script>'+ '\n'+
-                '</body>'+ '\n'+
-            '</html>'
-            ) 
+        title = os.path.basename(md_filePath)
+        title = title.split(".")[0]
+
+        html_file = open(f"{title}.html","w")
+
+        # obtain a file handle
+        with open(md_filePath,"r") as md_file:
+            # initialize the html file with boilerplate
+            html_file.write(f"""<!DOCTYPE html>
+                                <html lang="en">
+                                <head>
+                                    <meta charset="UTF-8">
+                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                                    <title>{title}</title>
+                                </head>
+                                <body>""")
+            
+            # note: The triple quote """ strings don't need newline chars. 
+            # It keeps the string as it looks in code.
+            
+            for line in md_file:
+                pass
+
+
+            # add md-block script and close body and html tag
+            html_file.write(f"""<script src="{self.mdblock_path}"></script>
+                            </body>
+                            </html>""")
+            
+        html_file.close()
+
+
+        
+        
+
+
+
+
