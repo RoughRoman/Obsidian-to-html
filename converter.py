@@ -51,15 +51,16 @@ class Converter:
         # obtain a file handle
         with open(md_filePath,"r") as md_file:
             # initialize the html file with boilerplate
-            html_file.write(f"""<!DOCTYPE html>
-                                <html lang="en">
-                                <head>
-                                    <meta charset="UTF-8">
-                                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                                    <title>{title}</title>
-                                </head>
-                                <body>""")
+            html_file.write(f"""
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{title}</title>
+</head>
+<body>""")
             
             # note: The triple quote """ strings don't need newline chars. 
             # It keeps the string as it looks in code.
@@ -76,6 +77,7 @@ class Converter:
         html_file.close()
 
     def formatLine(self, line, regexp):
+        # currently we are handling images only. A general solution would be prefered. But the indexing magic required makes me boil with rage. 
         while( re.search(regexp, line) != None):
             image_match = re.search(regexp, line)
             match_pos = image_match.span()
