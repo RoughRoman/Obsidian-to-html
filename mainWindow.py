@@ -45,19 +45,12 @@ class MainWindow(tk.Tk):
         self.mainloop()
 
     def selectVault(self):
-        path = filedialog.askdirectory(initialdir="~/")
-        
-        #Return type of path is tuple containing string hence:
-        if len(path) > 0:
-            if os.path.exists(path[0]):
-                self.vault_path.set(path)
+        path = filedialog.askdirectory(initialdir=".")
+        self.vault_path.set(path)
 
     def selectDestFolder(self):
         path = filedialog.askdirectory(initialdir=".")
-
-        if len(path) > 0:
-            if os.path.exists(path[0]):
-                self.dest_folder_path.set(path)
+        self.dest_folder_path.set(path)
 
     def convert(self):
         converter = Converter(str(self.vault_path.get()),
