@@ -1,7 +1,6 @@
 import os
 from multiprocessing import Pool
 from shutil import copy
-import urllib.request
 import re
 
 class Converter:
@@ -44,14 +43,6 @@ class Converter:
 
 
     def format(self, md_filePath):
-        # This will require some thought. We need to extract some data from the file. 
-        # Like the title or tags etc. Then we need to manually find all the MD style links
-        # and extract them in order to convert them to anchor tags with valid paths to other notes
-        # All while wrapping up non-link or other non-HTML type elements in the md-block tag.
-        # I think a streaming approach would be best. Instead of say, preprocessing the file and 
-        # collecting the link instances. I think the best way would be to process the file line by line
-        # and decide what happens on a case by case basis. 
-
         title = os.path.basename(md_filePath)
         title = title.split(".")[0]
 
@@ -74,10 +65,8 @@ class Converter:
             # It keeps the string as it looks in code.
             
             for line in md_file:
-                pass
-
-                
-
+                line = self.formatLine(line)
+                html_file.write(line)
 
             # add md-block script and close body and html tag
             html_file.write(f"""<script type="module" src="https://md-block.verou.me/md-block.js"></script>
@@ -86,6 +75,14 @@ class Converter:
             
         html_file.close()
 
+    def formatLine(self, line):
+        while( re.search("!\[\[.+?\]\]", line) != None):
+            image_match = re.search("!\[\[.+?\]\]", line)
+            match_pos = image_match.span()
+            image_name = line[match_pos[0]+2, match_pos[1]-3]
+            image_tag = f'<img src = "images/{image_name}"></img>'
+            line = line[:match_pos[0]]+ image_tag + line[match_pos[1]+1:]
+        return line
 
         
         
