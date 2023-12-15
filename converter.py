@@ -65,7 +65,7 @@ class Converter:
             # It keeps the string as it looks in code.
             
             for line in md_file:
-                line = self.formatLine(line,"!\[\[.+?\]\]")
+                line = self.formatLine(line,r"!\[\[.+?\]\]")
                 html_file.write(line)
 
             # add md-block script and close body and html tag
@@ -79,9 +79,9 @@ class Converter:
         while( re.search(regexp, line) != None):
             image_match = re.search(regexp, line)
             match_pos = image_match.span()
-            image_name = line[match_pos[0]+2, match_pos[1]-3]
+            image_name = line[match_pos[0] + 3 : match_pos[1] - 2]
             image_tag = f'<img src = "images/{image_name}"></img>'
-            line = line[:match_pos[0]]+ image_tag + line[match_pos[1]+1:]
+            line = line[:match_pos[0]]+ image_tag + line[match_pos[1]:]
         return line
 
         
