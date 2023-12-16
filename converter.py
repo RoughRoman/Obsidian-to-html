@@ -19,13 +19,18 @@ class Converter:
 
         # copy images into dest folder in its own subfolder
         image_dest_folder = os.path.join(self.dest_folder, "Images")
-        os.mkdir(image_dest_folder)
+
+        # create the folder if it does not already exist
+        if not os.path.isdir(image_dest_folder):
+            os.mkdir(image_dest_folder)
 
         for img_file in self.images:
             copy(img_file, image_dest_folder, True)
 
-        # create sub Dir for html files
-        os.mkdir(os.path.join(self.dest_folder,"Notes"))
+        # create sub folder for html files if it does not already exist
+        notes_dest_folder = os.path.join(self.dest_folder,"Notes")
+        if not os.path.isdir(notes_dest_folder):
+            os.mkdir(notes_dest_folder)
 
         # Process the Files
         if parallel:
@@ -54,16 +59,16 @@ class Converter:
         # obtain a file handle
         with open(md_filePath,"r") as md_file:
             # initialize the html file with boilerplate
-            html_file.write(f"""
-<!DOCTYPE html>
+            html_file.write(f"""<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>{title}</title>
-</head>
-<body>""")
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{title}</title>
+    </head>
+    <body>
+        <md-block>""")
             
             # note: The triple quote """ strings don't need newline chars. 
             # It keeps the string as it looks in code.
@@ -73,9 +78,10 @@ class Converter:
                 html_file.write(line)
 
             # add md-block script and close body and html tag
-            html_file.write(f"""<script type="module" src="https://md-block.verou.me/md-block.js"></script>
-                            </body>
-                            </html>""")
+            html_file.write(f"""        </md-block>
+        <script type="module" src="https://md-block.verou.me/md-block.js"></script>
+    </body>
+</html>""")
             
         html_file.close()
 
@@ -85,14 +91,15 @@ class Converter:
             image_match = re.search(regexp, line)
             match_pos = image_match.span()
             tag_content = line[match_pos[0] + 2 : match_pos[1] - 2]
-
+            print(tag_content)
             if tag_content.endswith(".png"):
 
                 tag = f'<img src = "{os.path.join("Images",tag_content)}"></img>'
                 line = line[:match_pos[0]-1] + tag + line[match_pos[1]:]
                 # The -1 to the start index is to nab the ! from image tags
             else:
-                tag = f'<a src = "{os.path.join("Notes",tag_content)}"></a>'
+                print(os.path.join("Notes",tag_content + ".html"))
+                tag = f'<a href = "{tag_content + ".html"}">{tag_content}</a>'
                 line = line[:match_pos[0]]+ tag + line[match_pos[1]:]
             
             
