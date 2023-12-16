@@ -32,6 +32,9 @@ class Converter:
         for img_file in self.images:
             copy(img_file, image_dest_folder, True)
 
+        # create sub Dir for html files
+        os.mkdir(os.path.join(self.dest_folder,"Notes"))
+
 
     def traverse(self):
         for root, dirs, files in os.walk(self.vault_path):
@@ -45,8 +48,8 @@ class Converter:
     def format(self, md_filePath):
         title = os.path.basename(md_filePath)
         title = title.split(".")[0]
-
-        html_file = open(f"{title}.html","w")
+        html_dir = os.path.join(self.dest_folder,"Notes",f"{title}.html")
+        html_file = open(html_dir,"w")
 
         # obtain a file handle
         with open(md_filePath,"r") as md_file:
@@ -66,7 +69,7 @@ class Converter:
             # It keeps the string as it looks in code.
             
             for line in md_file:
-                line = self.formatLine(line,r"!\[\[.+?\]\]")
+                line = self.formatLine(line,r"\[\[.+?\]\]")
                 html_file.write(line)
 
             # add md-block script and close body and html tag
@@ -77,13 +80,21 @@ class Converter:
         html_file.close()
 
     def formatLine(self, line, regexp):
-        # currently we are handling images only. A general solution would be prefered. But the indexing magic required makes me boil with rage. 
+        # Works well. Lets hope someone doesnt end a name of an md file with .png
         while( re.search(regexp, line) != None):
             image_match = re.search(regexp, line)
             match_pos = image_match.span()
-            image_name = line[match_pos[0] + 3 : match_pos[1] - 2]
-            image_tag = f'<img src = "images/{image_name}"></img>'
-            line = line[:match_pos[0]]+ image_tag + line[match_pos[1]:]
+            tag_content = line[match_pos[0] + 2 : match_pos[1] - 2]
+
+            if tag_content.endswith(".png"):
+                tag = f'<img src = "Images/{tag_content}"></img>'
+                line = line[:match_pos[0]-1] + tag + line[match_pos[1]:]
+                # The -1 to the start index is to nab the ! from image tags
+            else:
+                tag = f'<a src = "Notes/{tag_content}"></a>'
+                line = line[:match_pos[0]]+ tag + line[match_pos[1]:]
+            
+            
         return line
 
         
