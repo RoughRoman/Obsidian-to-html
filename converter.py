@@ -17,14 +17,6 @@ class Converter:
 
     def convert(self, parallel):
 
-        # Process the Files
-        if parallel:
-            with Pool() as p:
-                html_strs = p.map(format, self.md_files)
-        else:
-            for md_file in self.md_files:
-                print(format(md_file))
-
         # copy images into dest folder in its own subfolder
         image_dest_folder = os.path.join(self.dest_folder, "Images")
         os.mkdir(image_dest_folder)
@@ -34,6 +26,14 @@ class Converter:
 
         # create sub Dir for html files
         os.mkdir(os.path.join(self.dest_folder,"Notes"))
+
+        # Process the Files
+        if parallel:
+            with Pool() as p:
+                p.map(format, self.md_files)
+        else:
+            for md_file in self.md_files:
+                format(md_file)
 
 
     def traverse(self):
