@@ -30,10 +30,10 @@ class Converter:
         # Process the Files
         if parallel:
             with Pool() as p:
-                p.map(format, self.md_files)
+                p.map(self.format, self.md_files)
         else:
             for md_file in self.md_files:
-                format(md_file)
+                self.format(md_file)
 
 
     def traverse(self):
