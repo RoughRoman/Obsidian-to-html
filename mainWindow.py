@@ -4,10 +4,15 @@ from tkinter import filedialog
 from tkinter import messagebox
 import os
 from converter import Converter
+import platform
 
 class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
+        # variable to use for conditions that depend on OS. 
+        # On windows this will return the string "Windows"
+        self.platform = platform.system()
+
         self.vault_path = tk.StringVar(self, "No Vault Selected")
         self.dest_folder_path = tk.StringVar(self, "No Destination Set")
 		
