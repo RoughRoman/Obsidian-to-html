@@ -45,6 +45,8 @@ class Converter:
             for md_file in self.md_files:
                 self.format(md_file)
 
+        self.createIndex()
+
 
     def traverse(self):
         for root, dirs, files in os.walk(self.vault_path):
@@ -109,7 +111,31 @@ class Converter:
             
             
         return line
+    
+    def createIndex(self):
 
+        index_dir = os.path.join(self.dest_folder,"Note-Index.html")
+        index_file = open(index_dir,"w")
+        index_file.write(f"""<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Note Index</title>
+    </head>
+    <body>
+        <ul>""")
+
+        for file in self.md_files:
+            file_name = os.path.basename(file).split(".")[0]
+            index_file.write(f'<li><a href = "Notes\{file_name}.html" >{file_name}</a></li>')
+
+        index_file.write(f"""</ul>
+    </body>
+</html>""")
+            
+        index_file.close()
         
         
 
