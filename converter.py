@@ -3,6 +3,7 @@ from multiprocessing import Pool
 from shutil import copy
 import re
 import platform
+from template import html_template
 
 class Converter:
     def __init__(self, vault_path, dest_folder):
@@ -58,37 +59,19 @@ class Converter:
 
 
     def format(self, md_filePath):
-        title = os.path.basename(md_filePath)
-        title = title.split(".")[0]
+        title = os.path.basename(md_filePath).split(".")[0]
         html_dir = os.path.join(self.dest_folder,"Notes",f"{title}.html")
         html_file = open(html_dir,"w")
+        html_content = ""
 
         # obtain a file handle
         with open(md_filePath,"r") as md_file:
-            # initialize the html file with boilerplate
-            html_file.write(f"""<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{title}</title>
-    </head>
-    <body>
-        <md-block>""")
-            
-            # note: The triple quote """ strings don't need newline chars. 
-            # It keeps the string as it looks in code.
-            
+ 
             for line in md_file:
                 line = self.formatLine(line,r"\[\[.+?\]\]")
-                html_file.write(line)
+                html_content += line
 
-            # add md-block script and close body and html tag
-            html_file.write(f"""        </md-block>
-        <script type="module" src="https://md-block.verou.me/md-block.js"></script>
-    </body>
-</html>""")
+        html_file.write(html_template.format(title, html_content))
             
         html_file.close()
 
