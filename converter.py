@@ -27,10 +27,7 @@ class Converter:
             os.mkdir(image_dest_folder)
 
         for img_file in self.images:
-            if platform.system() == "Windows":
-                copy(img_file, image_dest_folder)
-            else:
-                copy(img_file, image_dest_folder, True)
+            copy(img_file, image_dest_folder)
             
 
         # create sub folder for html files if it does not already exist
@@ -83,8 +80,8 @@ class Converter:
             tag_content = line[match_pos[0] + 2 : match_pos[1] - 2]
             print(tag_content)
             if tag_content.endswith(".png"):
-
-                tag = f'<img src = "{os.path.join("..\Images",tag_content)}"></img>'
+                image_path = "..\\Images"
+                tag = f'<img src = "{os.path.join(image_path,tag_content)}"></img>'
                 line = line[:match_pos[0]-1] + tag + line[match_pos[1]:]
                 # The -1 to the start index is to nab the ! from image tags
             else:
