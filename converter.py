@@ -2,6 +2,7 @@ import os
 from multiprocessing import Pool
 from shutil import copy
 import re
+import platform
 
 class Converter:
     def __init__(self, vault_path, dest_folder):
@@ -25,7 +26,11 @@ class Converter:
             os.mkdir(image_dest_folder)
 
         for img_file in self.images:
-            copy(img_file, image_dest_folder, True)
+            if platform.system() == "Windows":
+                copy(img_file, image_dest_folder)
+            else:
+                copy(img_file, image_dest_folder, True)
+            
 
         # create sub folder for html files if it does not already exist
         notes_dest_folder = os.path.join(self.dest_folder,"Notes")
@@ -94,7 +99,7 @@ class Converter:
             print(tag_content)
             if tag_content.endswith(".png"):
 
-                tag = f'<img src = "{os.path.join("Images",tag_content)}"></img>'
+                tag = f'<img src = "{os.path.join("..\Images",tag_content)}"></img>'
                 line = line[:match_pos[0]-1] + tag + line[match_pos[1]:]
                 # The -1 to the start index is to nab the ! from image tags
             else:
