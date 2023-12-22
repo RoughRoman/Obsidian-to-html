@@ -1,4 +1,5 @@
 # Obsidian Vault to Wiki Converter
+![O-H](Resources/Images/Obsidian_to_HTML.svg)
 ### Overview
 - This project is a Tkinter GUI program designed to convert an Obsidian vault, a collection of notes in Markdown, into a wiki-style website. The converter generates an index page and ensures working links to other notes within the vault.
 
