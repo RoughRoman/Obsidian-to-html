@@ -33,3 +33,7 @@ The following features are planned for future releases to enhance the functional
    
 ### Contributing
 - Feel free to contribute to the project by opening issues or submitting pull requests. Your feedback and contributions are highly appreciated.
+
+### Attributions
+- The [md-block](https://github.com/LeaVerou/md-block) team.
+- Logo by [Keamogetswe](https://github.com/Keamo-getswe)
