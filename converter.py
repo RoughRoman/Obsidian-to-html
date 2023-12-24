@@ -50,19 +50,17 @@ class Converter:
     def generateHtml(self, md_filePath):
         title = os.path.basename(md_filePath).split(".")[0]
         html_dir = os.path.join(self.dest_folder,"Notes",f"{title}.html")
-        html_file = open(html_dir,"w")
         html_content = ""
 
-        # obtain a file handle
         with open(md_filePath,"r") as md_file:
  
             for line in md_file:
                 line = self.formatLine(line,r"\[\[.+?\]\]")
                 html_content += line
 
-        html_file.write(html_template.format(title, html_content))
+        with open(html_dir,"w") as html_file:
+            html_file.write(html_template.format(title, html_content))
             
-        html_file.close()
 
     def formatLine(self, line, regexp):
         # Works well. Lets hope someone doesnt end a name of an md file with .png
@@ -84,21 +82,22 @@ class Converter:
     
 
     def createCssFile(self, template):
-        css_file = open(os.path.join(self.dest_folder,"styles.css"),"w")
-        css_file.write(template)
-        css_file.close()
+        css_file_path = os.path.join(self.dest_folder,"styles.css")
+        with open(css_file_path,"w") as css_file:
+            css_file.write(template)
+
     
     def createIndex(self, template):
         index_dir = os.path.join(self.dest_folder,"Note-Index.html")
-        index_file = open(index_dir,"w")
         index_list_str = ""
-        
-        for file in self.md_files:
-            file_name = os.path.basename(file).split(".")[0]
-            index_list_str += (f'<li><a href = "{os.path.join("Notes",file_name)}.html" >{file_name}</a></li>'+'\n')
 
-        index_file.write(template.format(index_list_str))
-        index_file.close()
+        for file in self.md_files:
+                file_name = os.path.basename(file).split(".")[0]
+                index_list_str += (f'<li><a href = "{os.path.join("Notes",file_name)}.html" >{file_name}</a></li>'+'\n')
+
+        with open(index_dir,"w") as index_file:
+            index_file.write(template.format(index_list_str))
+  
         
         
 
