@@ -8,7 +8,7 @@ html_template = """
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{}</title>
     <link rel="icon" href="https://obsidian.md/images/obsidian-logo-gradient.svg">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../styles.css">
   </head>
   <body>
     <div>
@@ -18,3 +18,26 @@ html_template = """
   </body>
 </html>
 """
+
+
+# Define your CSS template
+css_template = """
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #333;
+    color: #e4e4e4; 
+    padding: 5%; 
+}
+
+p {
+    line-height: 1.5; 
+}
+
+a {
+    color: #8a2be2; 
+    text-decoration: none; 
+}
+
+a:hover {
+    text-decoration: underline; 
+}"""

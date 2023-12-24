@@ -3,7 +3,7 @@ from multiprocessing import Pool
 from shutil import copy
 import re
 import platform
-from template import html_template
+from templates import html_template, css_template
 
 class Converter:
     def __init__(self, vault_path, dest_folder):
@@ -45,6 +45,13 @@ class Converter:
 
         self.createIndex()
 
+        # create a css file to place into the folder
+        css_file = open(os.path.join(self.dest_folder,"styles.css"),"w")
+        css_file.write(css_template)
+        css_file.close()
+
+
+
 
     def traverse(self):
         for root, dirs, files in os.walk(self.vault_path):
@@ -80,8 +87,7 @@ class Converter:
             tag_content = line[match_pos[0] + 2 : match_pos[1] - 2]
             print(tag_content)
             if tag_content.endswith(".png"):
-                image_path = "..\\Images"
-                tag = f'<img src = "{os.path.join(image_path,tag_content)}"></img>'
+                tag = f'<img src = "{os.path.join("..","Images",tag_content)}"></img>'
                 line = line[:match_pos[0]-1] + tag + line[match_pos[1]:]
                 # The -1 to the start index is to nab the ! from image tags
             else:
@@ -103,6 +109,7 @@ class Converter:
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Note Index</title>
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
         <ul>""")
