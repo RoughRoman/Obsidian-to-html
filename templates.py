@@ -20,6 +20,7 @@ html_template = """
 """
 
 
+
 # Define your CSS template
 css_template = """
 body {
@@ -41,3 +42,20 @@ a {
 a:hover {
     text-decoration: underline; 
 }"""
+
+
+index_template = """<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Note Index</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <ul>
+        {}
+        </ul>
+    </body>
+</html>"""

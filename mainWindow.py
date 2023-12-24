@@ -66,10 +66,10 @@ class MainWindow(tk.Tk):
             "Use Multiple Processors? (May slow down your computer temporarily)")
             if answer:
                 # convert with multi-threading
-                converter.parseFile(parallel= True )
+                converter.convert(parallel= True )
             elif answer == False:
                 # convert with single thread
-                converter.parseFile(parallel= False )
+                converter.convert(parallel= False )
             else:
                 # cancel
                 return
