@@ -12,54 +12,7 @@ class Converter:
         self.vault_path = vault_path
         self.dest_folder = dest_folder
 
-    def convert(self, parallel):
-        self.traverse()
 
-        image_dest_folder = os.path.join(self.dest_folder, "Images")
-
-        if not os.path.isdir(image_dest_folder):
-            os.mkdir(image_dest_folder)
-
-        for img_file in self.images:
-            copy(img_file, image_dest_folder)
-            
-        notes_dest_folder = os.path.join(self.dest_folder,"Notes")
-        if not os.path.isdir(notes_dest_folder):
-            os.mkdir(notes_dest_folder)
-
-        if parallel:
-            with Pool() as p:
-                p.map(self.generateHtml, self.md_files)
-        else:
-            for md_file in self.md_files:
-                self.generateHtml(md_file)
-
-        self.createIndex(index_template)
-
-        self.createCssFile(css_template)
-
-    def traverse(self):
-        for root, dirs, files in os.walk(self.vault_path):
-            for file in files:
-                if file.endswith(".md"):
-                     self.md_files.append(os.path.join(root, file))
-                elif file.endswith(".png"):
-                    self.images.append(os.path.join(root, file))
-
-
-    def generateHtml(self, md_filePath):
-        title = os.path.basename(md_filePath).split(".")[0]
-        html_dir = os.path.join(self.dest_folder,"Notes",f"{title}.html")
-        html_content = ""
-
-        with open(md_filePath,"r") as md_file:
- 
-            for line in md_file:
-                line = self.formatLine(line,r"\[\[.+?\]\]")
-                html_content += line
-
-        with open(html_dir,"w") as html_file:
-            html_file.write(html_template.format(title, html_content))
             
 
     def formatLine(self, line, regexp):
