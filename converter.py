@@ -5,6 +5,8 @@ import re
 import platform
 from templates import html_template, css_template, index_template
 
+
+
 class Converter:
     def __init__(self, vault_path, dest_folder):
         self.md_files = []
@@ -54,7 +56,3 @@ class Converter:
   
         
         
-
-
-
-
