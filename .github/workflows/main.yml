@@ -1,17 +1,16 @@
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   deployment:
     runs-on: ubuntu-latest
     steps:
-    - name: Deploy Stage
-      uses: fjogeleit/http-request-action@v1
-      with:
-        url: 'https://api.openai.com/v1/chat/completions'
-        method: 'POST'
-        Authorization: ${{ secrets.OPENAI_KEY}}
-        customHeaders: '{"Content-Type": "application/json"}'
-        data: '{"model": "gpt-3.5-turbo", "messages": [{"role": "user","content": "Hello"}]}'
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://api.openai.com/v1/chat/completions'
+          method: 'POST'
+          customHeaders: '{"Content-Type": "application/json","Authorization": "Bearer ${{ secrets.OPENAI_API_KEY }}"}'
+          data: '{"model": "gpt-3.5-turbo", "messages": [{"role": "user","content": "Hello"}]}'
