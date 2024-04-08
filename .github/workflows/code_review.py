@@ -15,12 +15,12 @@ name = os.getenv('NAME')
 # Perform the OpenAI request
 response = openai.Completion.create(
     model="gpt-3.5-turbo",
-    prompt=f"Pull request from {name} ({email}) containing the following code changes:\n```{code}```",
-    max_tokens=100
+    prompt=f"Please Review the following Pull request from {name} ({email}) containing the following code changes:\n```{code}```",
+    max_tokens=4000
 )
 
 # Define the URL of the second API
-api_url = 'YOUR_SECOND_API_URL'
+api_url = 'https://prod-66.westeurope.logic.azure.com:443/workflows/867f215910024d3a8d8623eb0b4dc8e4/triggers/manual/paths/invoke?api-version=2016-06-01'
 
 # Send the OpenAI response to the second API
 response = requests.post(api_url, data=response)
