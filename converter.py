@@ -13,6 +13,7 @@ class Converter:
         self.dest_folder = dest_folder
 
 
+
     def formatLine(self, line, regexp):
         # Works well. Lets hope someone doesnt end a name of an md file with .png
         while( re.search(regexp, line) != None):
