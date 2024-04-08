@@ -12,7 +12,8 @@ class Converter:
         self.vault_path = vault_path
         self.dest_folder = dest_folder
 
-
+    def foobar(self):
+        print("this is a test function")
 
 
     def formatLine(self, line, regexp):
@@ -23,7 +24,7 @@ class Converter:
             tag_content = line[match_pos[0] + 2 : match_pos[1] - 2]
 
             if tag_content.endswith(".png"):
-                tag = f'<img src = "{os.path.join("..","Images",tag_content)}"></img>'
+                tag = f'<img src = "{os.path.join("..","Images",tag_content)}"></img>'S
                 line = line[:match_pos[0]-1] + tag + line[match_pos[1]:]
                 # The -1 to the start index is to nab the ! from image tags
             else:
