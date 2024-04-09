@@ -3,18 +3,23 @@ from openai import OpenAI
 import requests
 import json
 
+print("started")
+
 code = sys.stdin.read()
 
 client = OpenAI(
     api_key = os.getenv('OPENAI_KEY')
 )
 
+print("envs:")
 email = os.getenv('EMAIL')
 name = os.getenv('NAME')
 lang = os.getenv('LANG')
 user_model = os.getenv('MODEL')
 custom_instructions = os.getenv('CUSTOM_INSTRUCTIONS')
 callback_url = os.getenv('CALLBACK')
+print(email,name,lang,user_model,custom_instructions,callback_url)
+print('/n')
 
 response = client.chat.completions.create(
   model=user_model,
@@ -24,7 +29,10 @@ response = client.chat.completions.create(
   ]
 )
 
+
+print("Ready to send")
 payload = {"email":f"{email}","name":f"{name}","message":f"{str(response.choices[0].message)}"}
 response = requests.post(callback_url, str(payload))
 
+print("end")
 
