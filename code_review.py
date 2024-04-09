@@ -1,19 +1,21 @@
 import sys, os
-import openai
+from openai import OpenAI
 import requests
 
 # Read the code changes from standard input
 code = sys.stdin.read()
 
 # Define your OpenAI API key
-openai.api_key = os.getenv('OPENAI_API_KEY')
+client = OpenAI(
+    api_key = os.getenv('OPENAI_KEY')
+)
 
 # Define the email and name of the pull request sender
 email = os.getenv('EMAIL')
 name = os.getenv('NAME')
 
 # Perform the OpenAI request
-response = openai.Completion.create(
+response = client.completions.create(
     model="gpt-3.5-turbo",
     prompt=f"Please Review the following Pull request from {name} ({email}) containing the following code changes:\n```{code}```",
     max_tokens=4000
