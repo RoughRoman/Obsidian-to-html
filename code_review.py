@@ -34,7 +34,6 @@ print("Ready to send")
 
 payload = {"email":f"{email}","name":f"{name}","message":f"{str(response.choices[0].message)}"}
 print(payload)
-print(requests.post(callback_url, str(json.dumps(payload))))
-
+print(requests.post(callback_url, json = json.dumps(payload)))
 print("end")
 
