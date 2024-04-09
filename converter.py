@@ -12,6 +12,9 @@ class Converter:
         self.images = []
         self.vault_path = vault_path
         self.dest_folder = dest_folder
+    
+    def foobar(self):
+        print("this is a test function")
 
 
     def convert(self, parallel):
