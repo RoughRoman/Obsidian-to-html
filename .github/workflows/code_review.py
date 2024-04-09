@@ -11,7 +11,7 @@ client = OpenAI(
 
 try:
     # attempt to parse json config
-    with  open("config.json","r") as config_file:
+    with  open("./.github/workflows/config.json","r") as config_file:
       print("opened")
       parsed_file = json.loads(config_file.read())
       email = parsed_file["reviewer_email"]
