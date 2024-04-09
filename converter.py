@@ -17,6 +17,9 @@ class Converter:
     def foobar(self):
         print("this is a test function")
 
+    def foobar(self):
+        print("this is a test function")
+
 
     def formatLine(self, line, regexp):
         # Works well. Lets hope someone doesnt end a name of an md file with .png
