@@ -29,5 +29,7 @@ jobs:
           OPENAI_MODEL: 'gpt-3.5-turbo'
           EMAIL: 'matthew.lategan@tangentsolutions.co.za'
           NAME: 'Matthew L'
+          CUSTOM_INSTRUCTIONS: 'Use snake-case for variables'
+          CALLBACK: 'https://prod-66.westeurope.logic.azure.com:443/workflows/867f215910024d3a8d8623eb0b4dc8e4/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AD9bbCur1-bygeUa1oDpe6VyWUmGIVWPScjy0_JwDrk'
         run: |
           git diff ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }} | python code_review.py
