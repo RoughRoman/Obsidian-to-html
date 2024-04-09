@@ -25,8 +25,9 @@ jobs:
 
       - name: Run code review
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_KEY }}
-          OPENAI_MODEL: 'gpt-3.5-turbo'
+          OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          LANG: 'python'
+          MODEL: 'gpt-3.5-turbo'
           EMAIL: 'matthew.lategan@tangentsolutions.co.za'
           NAME: 'Matthew L'
           CUSTOM_INSTRUCTIONS: 'Use snake-case for variables'
