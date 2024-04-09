@@ -32,7 +32,7 @@ response = client.chat.completions.create(
 
 print("Ready to send")
 payload = {"email":f"{email}","name":f"{name}","message":f"{str(response.choices[0].message)}"}
-response = requests.post(callback_url, str(payload))
+print(requests.post(callback_url, str(payload)))
 
 print("end")
 
