@@ -1,6 +1,7 @@
 import sys, os
 from openai import OpenAI
 import requests
+import json
 
 code = sys.stdin.read()
 
@@ -10,17 +11,22 @@ client = OpenAI(
 
 email = os.getenv('EMAIL')
 name = os.getenv('NAME')
+lang = os.getenv('LANG')
+user_model = os.getenv('MODEL')
+custom_instructions = os.getenv('CUSTOM_INSTRUCTIONS')
 
 response = client.chat.completions.create(
-  model="gpt-3.5-turbo",
+  model=user_model,
   messages=[
-    {"role": "system", "content": "You are an experienced Programmer who will review the following code."},
-    {"role": "user", "content": f"{code}"}
+    {"role": "system", "content": f"You are an experienced {lang} Programmer who will review the following code. You will judge the code against general good practice for {lang} as well as any custom standards supplied before the code. Do not rewrite any code. Supply a list of recommended changes in plain english. Also supply a short summary of what the code does. "},
+    {"role": "user", "content": f"Here are the standards if supplied: {custom_instructions}. Here is the {code}"}
   ]
 )
 
-api_url = 'https://prod-66.westeurope.logic.azure.com:443/workflows/867f215910024d3a8d8623eb0b4dc8e4/triggers/manual/paths/invoke?api-version=2016-06-01'
+api_url = r'https://prod-66.westeurope.logic.azure.com:443/workflows/867f215910024d3a8d8623eb0b4dc8e4/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AD9bbCur1-bygeUa1oDpe6VyWUmGIVWPScjy0_JwDrk'
 
-response = requests.post(api_url, data=response)
 
-print(response.text)
+payload = {"email":f"{email}","name":f"{name}","message":f"{str(response.choices[0].message)}"}
+response = requests.post(api_url, str(payload))
+
+
