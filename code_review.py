@@ -11,9 +11,12 @@ client = OpenAI(
 email = os.getenv('EMAIL')
 name = os.getenv('NAME')
 
-response = client.completions.create(
-    model="gpt-3.5-turbo",
-    messages= [{"role":"user", "content": f"Please Review the following Pull request from {name} ({email}) containing the following code changes:\n```{code}```"}]
+response = client.chat.completions.create(
+  model="gpt-3.5-turbo",
+  messages=[
+    {"role": "system", "content": "You are an experienced Programmer who will review the following code."},
+    {"role": "user", "content": f"{code}"}
+  ]
 )
 
 api_url = 'https://prod-66.westeurope.logic.azure.com:443/workflows/867f215910024d3a8d8623eb0b4dc8e4/triggers/manual/paths/invoke?api-version=2016-06-01'
