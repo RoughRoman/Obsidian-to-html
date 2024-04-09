@@ -13,8 +13,13 @@ class Converter:
         self.vault_path = vault_path
         self.dest_folder = dest_folder
     
-    def foobar(self):
-        print("Test function")
+    def do_math():
+        a = 5
+        b = 10
+        c = a + b
+        d = c * 2
+        return d
+
 
     def convert(self, parallel):
         self.traverse()
