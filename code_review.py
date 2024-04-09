@@ -14,6 +14,7 @@ name = os.getenv('NAME')
 lang = os.getenv('LANG')
 user_model = os.getenv('MODEL')
 custom_instructions = os.getenv('CUSTOM_INSTRUCTIONS')
+callback_url = os.getenv('CALLBACK')
 
 response = client.chat.completions.create(
   model=user_model,
@@ -23,10 +24,7 @@ response = client.chat.completions.create(
   ]
 )
 
-api_url = r'https://prod-66.westeurope.logic.azure.com:443/workflows/867f215910024d3a8d8623eb0b4dc8e4/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AD9bbCur1-bygeUa1oDpe6VyWUmGIVWPScjy0_JwDrk'
-
-
 payload = {"email":f"{email}","name":f"{name}","message":f"{str(response.choices[0].message)}"}
-response = requests.post(api_url, str(payload))
+response = requests.post(callback_url, str(payload))
 
 
