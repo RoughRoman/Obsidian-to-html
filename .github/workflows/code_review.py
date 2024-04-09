@@ -12,7 +12,6 @@ client = OpenAI(
 try:
     # attempt to parse json config
     with  open("./.github/workflows/config.json","r") as config_file:
-      print("opened")
       parsed_file = json.loads(config_file.read())
       email = parsed_file["reviewer_email"]
       name = parsed_file["name"]
@@ -20,7 +19,6 @@ try:
       user_model = parsed_file["model"]
       custom_standards = parsed_file["custom_standards"]
       callback_url = parsed_file["response_callback_url"]
-      print("Assigned All")
 
 except:
   print("Couldn't read config.json. Defaulting to main.yml env variables.")
