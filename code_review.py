@@ -35,7 +35,7 @@ print("Ready to send")
 payload = json.dumps({
   "email": email,
   "name": name,
-  "message": str(response.choices[0].message)
+  "message": str(response.choices[0].message.content)
 })
 headers = {
   'Content-Type': 'application/json'
