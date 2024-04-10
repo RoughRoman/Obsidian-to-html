@@ -14,7 +14,6 @@ try:
     with  open("./.github/workflows/config.json","r") as config_file:
       parsed_file = json.loads(config_file.read())
       email = parsed_file["reviewer_email"]
-      name = parsed_file["name"]
       lang = parsed_file["lang"]
       user_model = parsed_file["model"]
       custom_standards = parsed_file["custom_standards"]
@@ -24,12 +23,13 @@ except:
   print("Couldn't read config.json. Defaulting to main.yml env variables.")
   # fall back on default env variables in yml file
   email = os.getenv('EMAIL')
-  name = os.getenv('NAME')
   lang = os.getenv('LANG')
   user_model = os.getenv('MODEL')
   custom_standards = os.getenv('CUSTOM_INSTRUCTIONS')
   callback_url = os.getenv('CALLBACK')
 
+name = os.getenv('NAME')
+pr_link = os.getenv('PR_LINK')
 
 
 response = client.chat.completions.create(
@@ -43,7 +43,8 @@ response = client.chat.completions.create(
 payload = json.dumps({
   "email": email,
   "name": name,
-  "message": str(response.choices[0].message.content)
+  "message": str(response.choices[0].message.content),
+  "link": str(pr_link)
 })
 headers = {
   'Content-Type': 'application/json'
