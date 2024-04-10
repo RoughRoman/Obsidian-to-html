@@ -14,45 +14,6 @@ class Converter:
         self.dest_folder = dest_folder
 
 
-    def calculator_with_memory():
-        memory = 0
-        while True:
-            print("Current Memory:", memory)
-            print("Enter an operation ('+', '-', '*', '/') or 'q' to quit:")
-            operation = input()
-            
-            if operation == 'q':
-                print("Exiting calculator.")
-                break
-            
-            if operation not in ['+', '-', '*', '/']:
-                print("Invalid operation. Please enter '+', '-', '*', '/', or 'q' to quit.")
-                continue
-            
-            print("Enter first operand:")
-            a = float(input())
-            
-            print("Enter second operand:")
-            b = float(input())
-            
-            if operation == '+':
-                result = a + b
-            elif operation == '-':
-                result = a - b
-            elif operation == '*':
-                result = a * b
-            elif operation == '/':
-                if b == 0:
-                    print("Error: Division by zero")
-                    continue
-                result = a / b
-            
-            print("Result:", result)
-            print("Do you want to store the result in memory? (y/n)")
-            store_in_memory = input()
-            if store_in_memory == 'y':
-                memory = result
-
     def convert(self, parallel):
         self.traverse()
 
