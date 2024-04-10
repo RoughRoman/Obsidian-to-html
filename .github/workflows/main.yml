@@ -30,7 +30,7 @@ jobs:
           PR_LINK: ${{ github.event.pull_request.html_url }}
           OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
           LANG: 'python'
-          MODEL: 'gpt-3.5-turbo'
+          MODEL: 'gpt-4-turbo-2024-04-09'
           EMAIL: 'matthew.lategan@tangentsolutions.co.za'
           NAME: ${{ github.event.pull_request.user.login }}
           CUSTOM_INSTRUCTIONS: 'Use snake-case for variables'

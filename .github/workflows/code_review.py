@@ -44,7 +44,7 @@ payload = json.dumps({
   "email": email,
   "name": name,
   "message": str(response.choices[0].message.content),
-  "link": str(pr_link)
+  "link": str(f"<a href='{pr_link}'>View Pull Request</a>")
 })
 headers = {
   'Content-Type': 'application/json'
