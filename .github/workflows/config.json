@@ -1,7 +1,7 @@
 {
 "lang":"Python",
 "model":"gpt-4-turbo-2024-04-09",
-"reviewer_email":"nikhil.mohanpershad@tangentsolutions.co.za",
+"reviewer_email":"matthew.lategan@tangentsolutions.co.za",
 "name":"Matthew L",
 "custom_standards": "Use snake-case for local variables",
 "response_callback_url":"https://prod-66.westeurope.logic.azure.com:443/workflows/867f215910024d3a8d8623eb0b4dc8e4/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=AD9bbCur1-bygeUa1oDpe6VyWUmGIVWPScjy0_JwDrk"
