@@ -35,7 +35,7 @@ pr_link = os.getenv('PR_LINK')
 response = client.chat.completions.create(
   model=user_model,
   messages=[
-    {"role": "system", "content": f"You are an experienced {lang} Programmer who will review the following code. Look for potential errors and bad style for {lang} as well as any custom standards supplied before the code. Do not rewrite any code. Supply a list of recommended changes in plain english. Also supply a short summary of what the code does. Please format your review in html. Avoid generic advice"},
+    {"role": "system", "content": f"You are an experienced {lang} Programmer who will review the following code. Look for potential errors and bad style for {lang} as well as any custom standards supplied before the code. Do not rewrite any code. Supply a list of recommended changes in plain english. Also supply a short summary of what the code does. Please format your review in html. Avoid generic advice. Be comprehensive"},
     {"role": "user", "content": f"Here are the standards if supplied: {custom_standards}. Here is the {code}"}
   ]
 )
